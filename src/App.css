@@ -1,0 +1,48 @@
+.spinner{
+  width:1900px;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.register{
+  width: 1600px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.login{
+  width: 1600px;
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+}
+.login-form{
+  width: 500px;
+  border-radius: 13px;
+  box-shadow: rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.formIten{
+  width: 400px;
+  margin: 0 auto;
+  margin: 20px 0;
+}
+.google{
+  width: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.login-form-button{
+  width: 400px;
+}
+.text{
+
+  text-align: center;
+}

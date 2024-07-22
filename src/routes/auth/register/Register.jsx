@@ -2,9 +2,14 @@ import React from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Typography } from 'antd';
 import { Link } from 'react-router-dom';
+import TelegramLoginButton from 'telegram-login-button'
 import axios from '../../../API'
+import { GoogleLogin } from '@react-oauth/google';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Register = () => {
   const {Text,Title} = Typography
+  const notify = () => toast('error');
   const onChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
@@ -16,11 +21,13 @@ try{
 
 }   
 catch(error){
-  console.log(error);
-}     
+  notify(error);
+}    
       };
   return (
-    <Form
+ <div className='register '>
+      <ToastContainer />
+       <Form
     name="normal_login"
     className="login-form"
     initialValues={{
@@ -28,7 +35,9 @@ catch(error){
     }}
     onFinish={onFinish}
   >
+    <Title>Register</Title>
     <Form.Item
+    className='formIten'
      label="User Name"
       name="username"
       rules={[
@@ -40,7 +49,7 @@ catch(error){
     >
       <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
     </Form.Item>
-    <Form.Item
+    <Form.Item className='formIten'
     label="First Name"
       name="first_name"
       rules={[
@@ -50,33 +59,69 @@ catch(error){
         },
       ]}
     >
-      <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+      <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="firstname" />
     </Form.Item>
     
-    <Form.Item label="Password"
-     className='w-200'>
+    <Form.Item
+     label="Password"
+    className='formIten'>
 
     <Input
         prefix={<LockOutlined className="site-form-item-icon" />}
 
         type="password"
+        
         placeholder="Password"
       />
-      <Form.Item name="remember" valuePropName="checked" noStyle>
-      <Checkbox onChange={onChange}>Remember me</Checkbox>
+      <Form.Item  name="remember" valuePropName="checked" noStyle>
+      <Checkbox  className='formIten' onChange={onChange}>Remember me</Checkbox>
       </Form.Item>
+<Form.Item className='formIten google' >
 
-      
-    </Form.Item>
+      <GoogleLogin
+     
+  onSuccess={async  (credentialResponse) => {
+    const decode = credentialResponse.credential.split(".")[1];
+    const userData = JSON.parse(atob(decode));
+    userData.username = userData.email;
+    userData.password = userData.sub;
+    userData.first_name = userData.name
    
-    <Form.Item>
-      <Button type="primary" htmlType="submit" className="login-form-button">
+    const user = {
+        username:userData.email,
+        password:userData.sub,
+        first_name:userData.name
+    }
+    let responce = await axios.post("/auth",user)
+  console.log(responce.data);
+    
+  }}
+  onError={() => {
+    console.log('Login Failed');
+  }}
+ 
+/>
+
+  
+    </Form.Item>
+    <TelegramLoginButton
+    botName={import.meta.env.VITE_BOT_NAME}
+    dataOnauth={(user) => console.log(user)}
+  />,
+</Form.Item>
+
+    <Form.Item  className='formItem' >
+
+      <Button  type="primary" htmlType="submit" className="login-form-button">
        Register
       </Button>
-<Title>Already Have an Account? <Link to='/login'>Login</Link></Title>
+      </Form.Item>
+      <Form.Item  className='formItem' >    
+<Text className='text'>Already Have an Account? <Link to='/login'>Login</Link></Text>
     </Form.Item>
 
   </Form>
+ </div>
   )
 }
 

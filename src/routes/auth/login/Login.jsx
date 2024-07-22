@@ -3,13 +3,23 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Typography } from 'antd';
 import { Link } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import axios from '../../../API'
+
 const Login = () => {
   const {Text,Title} = Typography
-    const onFinish = (values) => {
-        console.log('Received values of form: ', values);
+    const onFinish =async (values) => {
+        try{
+            let responce = await axios.post("/auth/login",values)
+            console.log(responce);
+          
+          }   
+          catch(error){
+            console.log(error);
+          }   
       };    
   return (
-    <Form
+  <div className="login">
+      <Form
     
     name="normal_login"
     className="login-form"
@@ -18,13 +28,14 @@ const Login = () => {
     }}
     onFinish={onFinish}
   >
-    <Form.Item
-    label="First Name"
-      name="firstname"
+     <Title>Login</Title>
+     <Form.Item
+    label="User Name"
+      name="userName"
       rules={[
         {
           required: true,
-          message: 'Please input your FirstName!',
+          message: 'Please input your userName!',
         },
       ]}
     >
@@ -46,18 +57,7 @@ const Login = () => {
         placeholder="Password"
       />
     </Form.Item>
-    <Form.Item
-    label="User Name"
-      name="userName"
-      rules={[
-        {
-          required: true,
-          message: 'Please input your userName!',
-        },
-      ]}
-    >
-      <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-    </Form.Item>
+   
     <Form.Item>
       <Form.Item name="remember" rules={[
         
@@ -69,22 +69,39 @@ const Login = () => {
         Forgot password
       </a>
     </Form.Item>
-
-    <Form.Item>
-      <Button type="primary" htmlType="submit" className="login-form-button">
-       Login
-      </Button>
-      <GoogleLogin
-  onSuccess={credentialResponse => {
-    console.log(credentialResponse);
+   <Form.Item className='formIten google'>
+   <GoogleLogin
+  onSuccess={async  (credentialResponse) => {
+    const decode = credentialResponse.credential.split(".")[1];
+    const userData = JSON.parse(atob(decode));
+    userData.username = userData.email;
+    userData.password = userData.sub;
+    userData.first_name = userData.name
+   
+    const user = {
+        username:userData.email,
+        password:userData.sub,
+        first_name:userData.name
+    }
+    let responce = await axios.post("/auth",user)
+  console.log(responce.data);
+    
   }}
   onError={() => {
     console.log('Login Failed');
   }}
-/>;
-<Title>Already Have an Account? <Link to='/'>Register</Link></Title>
+/>
+   </Form.Item>
+    <Form.Item  className='formItem'>
+      <Button type="primary" htmlType="submit" className="login-form-button">
+       Login
+      </Button>
+      </Form.Item>
+      <Form.Item  className='formItem'>
+<Text>Already Have an Account? <Link to='/'>Register</Link></Text>
     </Form.Item>
   </Form>
+  </div>
 
   )
 }
