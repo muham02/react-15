@@ -1,28 +1,38 @@
 import React from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import TelegramLoginButton from 'telegram-login-button'
 import axios from '../../../API'
 import { GoogleLogin } from '@react-oauth/google';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Register = () => {
+  let navigate = useNavigate()
   const {Text,Title} = Typography
-  const notify = () => toast('error');
+const notify = () => toast("success");
+
   const onChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
     const onFinish = async (values) => {
-        console.log(values);
+      
 try{
   let responce = await axios.post("/auth",values)
   console.log(responce);
+  if(responce.status== 200){
+    notify('sucse');
+    setTimeout(()=>{
+      navigate('login')
+    },3000)
+  }
 
 }   
 catch(error){
-  notify(error);
-}    
+  //notify(error);
+  console.log(error);
+}   
+
       };
   return (
  <div className='register '>
@@ -64,6 +74,8 @@ catch(error){
     
     <Form.Item
      label="Password"
+     name="password"
+     required
     className='formIten'>
 
     <Input
@@ -73,10 +85,11 @@ catch(error){
         
         placeholder="Password"
       />
-      <Form.Item  name="remember" valuePropName="checked" noStyle>
-      <Checkbox  className='formIten' onChange={onChange}>Remember me</Checkbox>
       </Form.Item>
-<Form.Item className='formIten google' >
+      <Form.Item  name="remember" valuePropName="checked" noStyle>
+       <Checkbox  className='formIten' onChange={onChange}>Remember me</Checkbox>
+      </Form.Item>
+      <Form.Item className='formIten google' >
 
       <GoogleLogin
      
@@ -93,7 +106,7 @@ catch(error){
         first_name:userData.name
     }
     let responce = await axios.post("/auth",user)
-  console.log(responce.data);
+  console.log(responce);
     
   }}
   onError={() => {
@@ -104,11 +117,7 @@ catch(error){
 
   
     </Form.Item>
-    <TelegramLoginButton
-    botName={import.meta.env.VITE_BOT_NAME}
-    dataOnauth={(user) => console.log(user)}
-  />,
-</Form.Item>
+   
 
     <Form.Item  className='formItem' >
 

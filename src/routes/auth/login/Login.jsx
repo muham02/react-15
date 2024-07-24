@@ -1,24 +1,39 @@
 import React from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Typography } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
 import axios from '../../../API'
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const Login = () => {
   const {Text,Title} = Typography
+  let navigate = useNavigate()
+  const notify = () => toast("success");
+
     const onFinish =async (values) => {
+      console.log(values);
         try{
             let responce = await axios.post("/auth/login",values)
-            console.log(responce);
-          
+          console.log(responce.data);
+          if(responce.status== 200){
+            notify('sucse');
+            setTimeout(()=>{
+              navigate('/home')
+            },3000)
+          }
           }   
           catch(error){
             console.log(error);
+            if(error){
+
+              toast(error);
+            }
           }   
       };    
   return (
   <div className="login">
+      <ToastContainer />
       <Form
     
     name="normal_login"
@@ -31,7 +46,7 @@ const Login = () => {
      <Title>Login</Title>
      <Form.Item
     label="User Name"
-      name="userName"
+      name="username"
       rules={[
         {
           required: true,
@@ -44,6 +59,8 @@ const Login = () => {
     <Form.Item
     label="Password"
       name="password"
+      required  
+
       rules={[
         {
           required: true,
@@ -91,6 +108,10 @@ const Login = () => {
     console.log('Login Failed');
   }}
 />
+<TelegramLoginButton
+    botName={import.meta.env.VITE_BOT_NAME}
+    dataOnauth={(user) => console.log(user)}
+  />,
    </Form.Item>
     <Form.Item  className='formItem'>
       <Button type="primary" htmlType="submit" className="login-form-button">
