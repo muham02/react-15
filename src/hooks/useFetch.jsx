@@ -1,6 +1,5 @@
 import {useEffect,useState} from 'react'
 import axios from '../API'
-console.log(axios);
 const useFetch = () => {
 const [data,setData]= useState(null)
 useEffect(()=>{
