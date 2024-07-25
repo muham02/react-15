@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
+ 
   } from '@ant-design/icons';
   import { Button, Layout, Menu, theme, Input,Modal } from 'antd';
 import { NavLink, Outlet } from 'react-router-dom';
-import { MdOutlineProductionQuantityLimits } from "react-icons/md";
+import { AiFillProduct } from "react-icons/ai";
+import { FaUserAlt } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
 import { SIGN__OUT } from '../../redux/actions/actionTypes';
+import useFetch from '../../hooks/useFetch';
   const { Header, Sider, Content } = Layout;
  const {Search} = Input
 const items1 = ['Home', 'Auth', 'Admin'].map((key) => ({
@@ -21,6 +21,7 @@ const items1 = ['Home', 'Auth', 'Admin'].map((key) => ({
 
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 const Home = () => {
+  useFetch()
   const [isModalOpen, setIsModalOpen] = useState(false);
   let dispatch = useDispatch()
   const {
@@ -55,12 +56,13 @@ const handleCancel = () => {
           items={[
             {
               key: '1',
-        
+              icon: <AiFillProduct />,
               label: <NavLink className='navlin__lnik' to="">Products</NavLink>,
             },
            
             {
               key: '2',
+              icon:<FaUserAlt />,
             
               label:<NavLink className='navlin__lnik' to='pro'>User</NavLink>,
             },
@@ -86,7 +88,7 @@ const handleCancel = () => {
             }}
           />
         <Search placeholder="input search text" onSearch={onSearch} enterButton />
-        <Menu style={{width:"350px"}}
+        <Menu style={{width:"450px"}}
           theme="dark"
           mode="horizontal"
           defaultSelectedKeys={['1']}
@@ -104,6 +106,21 @@ const handleCancel = () => {
               label: <Button>
                 <NavLink className='nav__btn' to='/'>Register</NavLink>
               </Button>,
+            },
+            {
+              key: '3',
+             
+              label: <div style={{
+                width:"60px",
+                height:"60px",
+                borderRadius:"50%",
+                display:"flex",
+                alignItems:"center",
+                justifyContent:"center",
+                fontSize:"30px",
+                background:"gray"}}>
+             <FaUserAlt />
+              </div>,
             },
 
           ]}
