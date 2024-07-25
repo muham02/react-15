@@ -1,11 +1,16 @@
 import React, { Suspense,lazy } from 'react'
 
 import { useRoutes } from 'react-router-dom'
-import Login from './auth/login/Login'
-import Register from './auth/register/Register'
+
 import Loading from './loading/Loading'
 const Auth = lazy (()=> import("./auth/Auth"))
-const Home = lazy (()=> import("./home/Home"))
+const Private = lazy (()=> import("././private/Private"))
+
+const Register = lazy (()=>import("./auth/register/Register"))
+const Login = lazy(()=>import('./auth/login/Login'))
+   const Products = lazy(()=>import("./home/products/Products"))
+const  Promotes = lazy(()=>import("./home/promotes/Promotes"))
+
 
 const SendRoutes = () => {
   return useRoutes([
@@ -25,7 +30,19 @@ const SendRoutes = () => {
     },
     {
         path: "/home",
-        element:<Suspense fallback={<Loading/>}><Home/></Suspense>
+        element:<Suspense fallback={<Loading/>}><Private/></Suspense>,
+        children:[
+{
+    path:"",
+    element:<Suspense fallback={<Loading/>}><Products/></Suspense>,
+
+},
+{
+path:"pro",
+element:<Suspense fallback={<Loading/>}><Promotes/></Suspense>
+}
+
+        ]
     },
 ])
 }

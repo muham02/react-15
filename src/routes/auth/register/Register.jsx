@@ -2,25 +2,29 @@ import React from 'react'
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import TelegramLoginButton from 'telegram-login-button'
 import axios from '../../../API'
 import { GoogleLogin } from '@react-oauth/google';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import {REGISTER,ERROR} from '../../../redux/actions/actionTypes'
+
 const Register = () => {
   let navigate = useNavigate()
+const [form] = Form.useForm()
   const {Text,Title} = Typography
 const notify = () => toast("success");
-
+let dispatch = useDispatch()
   const onChange = (e) => {
     console.log(`checked = ${e.target.checked}`);
   };
     const onFinish = async (values) => {
       
 try{
-  let responce = await axios.post("/auth",values)
-  console.log(responce);
-  if(responce.status== 200){
+  let {data} = await axios.post("/auth",values)
+  console.log(data);
+  dispatch({type:REGISTER,token:data.payload.token,user:data.payload.user})
+  if(data){
     notify('sucse');
     setTimeout(()=>{
       navigate('login')
@@ -30,14 +34,15 @@ try{
 }   
 catch(error){
   //notify(error);
-  console.log(error);
+ dispatch({type:ERROR})
 }   
-
+form.resetFields()
       };
   return (
  <div className='register '>
       <ToastContainer />
        <Form
+       form={form}
     name="normal_login"
     className="login-form"
     initialValues={{

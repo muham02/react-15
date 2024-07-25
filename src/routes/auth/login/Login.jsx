@@ -3,20 +3,30 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input,Typography } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { GoogleLogin } from '@react-oauth/google';
+import TelegramLoginButton from 'telegram-login-button'
+
 import axios from '../../../API'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useDispatch } from 'react-redux';
+import {LOGIN,ERROR} from '../../../redux/actions/actionTypes'
+
 const Login = () => {
+let dispatch = useDispatch()
+
   const {Text,Title} = Typography
+const [form] = Form.useForm()
+
   let navigate = useNavigate()
   const notify = () => toast("success");
 
     const onFinish =async (values) => {
       console.log(values);
         try{
-            let responce = await axios.post("/auth/login",values)
-          console.log(responce.data);
-          if(responce.status== 200){
+            let {data} = await axios.post("/auth/login",values)
+          console.log(data);
+dispatch({type:LOGIN,token:data.payload.token,user:data.payload.user})
+          if(data){
             notify('sucse');
             setTimeout(()=>{
               navigate('/home')
@@ -24,12 +34,15 @@ const Login = () => {
           }
           }   
           catch(error){
-            console.log(error);
+            dispatch({type:ERROR})
+
             if(error){
 
               toast(error);
             }
           }   
+form.resetFields()
+
       };    
   return (
   <div className="login">

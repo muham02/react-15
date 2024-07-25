@@ -46,3 +46,14 @@
 
   text-align: center;
 }
+.layot{
+  width: 1400px;
+display: flex;
+}
+.parent{
+  width: 1600px ;
+  margin: 0 auto;
+}
+.nav__btn:has(.active){
+background: none;
+}
