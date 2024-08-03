@@ -15,6 +15,7 @@
   align-items: center;
   justify-content: center;
 }
+
 .parent{
   width:100vw;
   margin: 0 auto;
@@ -23,6 +24,14 @@
   width: 100vw;
   margin: 0 auto;
 
+}
+.body{
+  width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
 }
 .login-form{
   width: 500px;
@@ -60,4 +69,13 @@ display: flex;
 .nav__btn:has(.active){
 background: none;
 
+}
+.card{
+  width: 200px;
+  height: 300px;
+}
+.cardImg{
+  width: 90%;
+  height: 50%;
+  object-fit: cover;
 }

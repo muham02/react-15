@@ -43,7 +43,7 @@ const SendRoutes = () => {
     element:<Suspense fallback={<Loading/>}><User/></Suspense>
     },
 {
-path:"pro/:id",
+path:"/home/pro/:id",
 element:<Suspense fallback={<Loading/>}><Promotes/></Suspense>
 },
 

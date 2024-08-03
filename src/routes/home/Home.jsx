@@ -70,7 +70,7 @@ const handleCancel = () => {
               key: '3',
               icon:<FaUserAlt />,
             
-              label:<NavLink className='navlin__lnik' to='pro'>Promote</NavLink>,
+              label:<NavLink className='navlin__lnik' to=''>Promote</NavLink>,
             },
             
           ]}
@@ -134,9 +134,10 @@ const handleCancel = () => {
         </Header>
         <Content  style={{
           width:"1600px",
+          minHeight:"1200px",
             padding: 24,
             minHeight: 380,
-            background: "rgb(134, 130, 130)",
+            background: "#fff",
             color:"#fff",
             fontSize:"25px",
            borderRadius:"15px",
