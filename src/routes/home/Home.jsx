@@ -42,31 +42,36 @@ const handleCancel = () => {
 };
 
   return (
-  <div className='parent'>
+  <div className='parentHome'>
     <Modal title="Basic Modal" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
         Are you sure Delete?
       </Modal>
-   <Layout style={{minHeight:"100vh",width:"1500px", margin:'0 auto'}}>
+   <Layout style={{height:"900px",width:"1600px", margin:'0 auto'}}>
       <Sider  trigger={null} collapsible collapsed={collapsed}>
         <div className="demo-logo-vertical" style={{display:"Flex"}} />
        
-        <Menu style={{height:"800px",display:"flex",flexDirection:"column",}}
+        <Menu style={{height:"850px",width:"160px",display:"flex",flexDirection:"column",}}
           theme="dark"
           mode="inline"
           items={[
             {
               key: '1',
               icon: <AiFillProduct />,
-              label: <NavLink className='navlin__lnik' to="">Products</NavLink>,
+              label: <NavLink className='navlin__lnik' to="products">Products</NavLink>,
             },
            
             {
               key: '2',
               icon:<FaUserAlt />,
             
-              label:<NavLink className='navlin__lnik' to='pro'>User</NavLink>,
+              label:<NavLink className='navlin__lnik' to='user'>User</NavLink>,
             },
+            {
+              key: '3',
+              icon:<FaUserAlt />,
             
+              label:<NavLink className='navlin__lnik' to='pro'>Promote</NavLink>,
+            },
             
           ]}
           
@@ -74,7 +79,7 @@ const handleCancel = () => {
     <Button onClick={handleSignOut} danger type='primary' style={{width:"180px",margin:"0 auto",display:"flex",alignItems:"end"}}>Sign Out</Button>
       </Sider>
       <Layout>
-        <Header style={{width:"1400px",display:"flex",alignItems:"center",gap:"20px"}}>
+        <Header style={{width:"1600px",display:"flex",alignItems:"center",gap:"20px"}}>
         <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -128,9 +133,10 @@ const handleCancel = () => {
 
         </Header>
         <Content  style={{
+          width:"1600px",
             padding: 24,
             minHeight: 380,
-            background: "dodgerblue",
+            background: "rgb(134, 130, 130)",
             color:"#fff",
             fontSize:"25px",
            borderRadius:"15px",

@@ -1,6 +1,7 @@
 import React, { Suspense,lazy } from 'react'
 
 import { useRoutes } from 'react-router-dom'
+import User from './home/user/User'
 
 import Loading from './loading/Loading'
 const Auth = lazy (()=> import("./auth/Auth"))
@@ -33,14 +34,19 @@ const SendRoutes = () => {
         element:<Suspense fallback={<Loading/>}><Private/></Suspense>,
         children:[
 {
-    path:"",
+    path:"products",
     element:<Suspense fallback={<Loading/>}><Products/></Suspense>,
 
 },
 {
-path:"pro",
+    path:"user",
+    element:<Suspense fallback={<Loading/>}><User/></Suspense>
+    },
+{
+path:"pro/:id",
 element:<Suspense fallback={<Loading/>}><Promotes/></Suspense>
-}
+},
+
 
         ]
     },

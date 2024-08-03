@@ -39,8 +39,9 @@ catch(error){
 form.resetFields()
       };
   return (
- <div className='register '>
-      <ToastContainer />
+ <>
+ <div className='parent'>
+ <ToastContainer />
        <Form
        form={form}
     name="normal_login"
@@ -136,6 +137,9 @@ form.resetFields()
 
   </Form>
  </div>
+     
+  
+  </>
   )
 }
 

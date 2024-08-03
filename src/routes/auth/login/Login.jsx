@@ -45,10 +45,10 @@ form.resetFields()
 
       };    
   return (
-  <div className="login">
+    <>
       <ToastContainer />
-      <Form
-    
+      <div className="parent">
+      <Form 
     name="normal_login"
     className="login-form"
     initialValues={{
@@ -136,6 +136,7 @@ form.resetFields()
     </Form.Item>
   </Form>
   </div>
+  </>
 
   )
 }

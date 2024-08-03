@@ -1,9 +1,7 @@
 import axios from "axios";
 import store from '../redux/store'
-
-console.log(store);
 const getApi = axios.create({
-    baseURL : import.meta.env.VITE_GET_API,
+    baseURL : import.meta.env.VITE_GET_ART,
     headers:{
         "Content-Type":"application/json",
         "Authorization":`Bearer${store.getState().token}`
