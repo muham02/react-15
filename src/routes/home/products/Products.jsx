@@ -1,34 +1,67 @@
 
-import { Button, Card,Typography } from 'antd';
-// import axios from '../../../API'
+import { Button,Carousel , Card,Typography,Table, Flex } from 'antd';
 const { Title,Text } = Typography;
-import axios  from 'axios';
-import { useState,useEffect } from 'react';
+import axios  from '../../../API/index';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { ADD_CARD } from '../../../redux/actions/actionTypes'
+import useFetch from '../../../hooks/useFetch';
+import { FaRegHeart,FaHeart } from "react-icons/fa";
 const Products = () => {
-const [ data , setData] = useState([])
-const getdata = async ()=>{
-  const res = await axios('https://dummyjson.com/carts')
- setData(res.data.carts[14].products);
+  let dispatch = useDispatch()
+const [ data ] = useFetch('product/all')
+
+
+const handleAdd = (id)=>{
+dispatch({type:ADD_CARD,foods:id})
 }
-useEffect(()=>{
-  getdata()
-},[])
+
   return (
    <div className='body'>
   {
     
-     data?.map(item=>{
-    console.log(item);
+    data&& data?.map(item=>{
+    console.log(item._id);
     
       return(
-       <div className='card'>
-      <NavLink to={`/home/pro/:${item.id}`}><img className='cardImg' alt="example" src={item.thumbnail} /></NavLink>
-      <Title style={{minHeight:"150px"}}>{item.title}</Title>
-      <Text>{item.price}</Text> <br />
-         <Button><button style={{background:"none",border:"none"}}>+</button>
-         <button style={{background:"none",border:"none"}}>-</button></Button>
-       </div>
+       <Card  style={{width:"250px",
+       height:"500px",
+       fontSize:"30px",
+       boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8px",
+       display:"flex",
+       alignItems:"center",
+       justifyContent:"center",
+       flexDirection:"column",
+       position:"relative",
+       zIndex:"0"
+       }} className='card' key={item.id}>
+        <FaRegHeart style={{
+          position:"absolute",
+          top:"2px",
+          right:"2px",
+          zIndex:"1"
+      }}/>
+      <NavLink to={`/home/single/${item._id}`}>
+       <Carousel arrows infinite autoplay style={{minHeight:"200px",width:"250px"}}>
+       {
+        item.product_images.map((image)=>{
+        return(
+          <img className='cardImg' alt="example" src={image} />
+        )
+        })
+       }
+       </Carousel>
+        </NavLink>
+      <Title style={{minHeight:"60px",fontSize:"30px"}}>{item.product_name}</Title>
+      <div style={{display:"flex",alignItems:"center",justifyContent:"space-between"}}>
+      <Text style={{fontSize:"20px",textDecoration:"line-through"}}>${item.original_price}</Text> <br />
+      <Text style={{fontSize:"20px",color:"red"}}>${item.sale_price}</Text>
+      </div>
+      <br />
+         <Button style={{width:"100%",minHeight:"30px",marginBottom:"10px"}}><button onClick={()=>handleAdd(item)} style={{background:"none",border:"none",fontSize:"22px"}}>+</button>
+         <button style={{background:"none",border:"none",fontSize:"22px"}}>-</button></Button>
+       </Card>
+
       )
 
      })

@@ -1,8 +1,10 @@
-import {LOGIN,REGISTER,ERROR, SIGN__OUT} from '../actions/actionTypes'
+import {LOGIN,REGISTER,ERROR, SIGN__OUT,ADD_CARD} from '../actions/actionTypes'
 
 const intialState = {
     token :localStorage.getItem("token")|| null,
     user:localStorage.getItem("user")|| null,
+    addBasket:JSON.parse(localStorage.getItem("add"))|| null,
+
     isError:false,
     isSuccess:false,
     error:null
@@ -26,10 +28,18 @@ const intialState = {
                         user:null
                     }
                 case SIGN__OUT:
+                    localStorage.removeItem("token")
+                    localStorage.removeItem("user")
+
                     return{
-                        
+                        ...state,
                         token:null,
                         user:null
+                    }
+                    case ADD_CARD:
+                    return{
+                        
+                        addBasket:[state.addBasket,action.foods] 
                     }
                 default:
                     return state

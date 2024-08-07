@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import axios  from 'axios'
-import { Card } from 'antd'
-const { Meta } = Card;
 
 const Promotes = () => {
   let params =  useParams()
-
-  const [ data , setData] = useState([])
+  const [ userData , setUserData] = useState(null)
 useEffect(()=>{
 
 const getdata = async ()=>{
-  const res = await axios(`https://dummyjson.com/carts/${params.id}`)
-  setData(res.data.products);
+  try{
+    const responce = await axios(`https://dummyjson.com/carts/${params.id}`)
+  console.log(responce);
+  }
+  catch(error){
+    console.log(error);
+  }
 }
   getdata()
 },[params])
-console.log(data);
+console.log(userData);
     return(
-     <h1>{data.title}</h1>
+     <h1></h1>
     )
   
 }

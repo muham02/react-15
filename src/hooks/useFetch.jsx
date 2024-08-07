@@ -1,35 +1,24 @@
 import { useEffect, useState } from 'react';
 import axios from '../API';
-
-const useFetch = () => {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const useFetch = (ENDPOINT) => {
+  const [data,setData] = useState(null)
 
   useEffect(() => {
     const loadData = async () => {
+
       try {
-        const response = await axios.get('/auth/profile');
-        setData(response.data);
+        const response = await axios(ENDPOINT);
+        setData(response.data?.payload);
       } catch (error) {
        console.log(error);
       } finally {
-        setLoading(false);
       }
     };
 
     loadData();
-  }, []);
+  }, [ENDPOINT]);
 
-  return (
-    <div>
-      {
-        data?.map(item=>{
-          console.log(item);
-        })
-      }
-    </div>
-  );
+  return [data]
 };
 
 export default useFetch;

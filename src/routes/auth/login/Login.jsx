@@ -18,7 +18,7 @@ let dispatch = useDispatch()
 const [form] = Form.useForm()
 
   let navigate = useNavigate()
-  const notify = () => toast("success");
+  // const notify = () => toast("success");
 
     const onFinish =async (values) => {
       console.log(values);
@@ -27,19 +27,17 @@ const [form] = Form.useForm()
           console.log(data);
 dispatch({type:LOGIN,token:data.payload.token,user:data.payload.user})
           if(data){
-            notify('sucse');
+            toast('Success');
             setTimeout(()=>{
-              navigate('/home')
+              navigate('/home/products')
             },3000)
           }
+      
           }   
           catch(error){
             dispatch({type:ERROR})
-
-            if(error){
-
-              toast(error);
-            }
+            toast('Error');
+         
           }   
 form.resetFields()
 
@@ -115,7 +113,7 @@ form.resetFields()
     }
     let responce = await axios.post("/auth",user)
   console.log(responce.data);
-    
+    console.log(user);
   }}
   onError={() => {
     console.log('Login Failed');
